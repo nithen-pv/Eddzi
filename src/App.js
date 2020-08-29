@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useState} from 'react';
+import Header from "./Components/Header";
+import SideNavBar from "./Components/SideNavBar";
+import Description from "./Components/Description";
+import Note from "./Components/Note";
 import './App.css';
 
 function App() {
+
+  const [notes, setNotes] = useState([]);
+
+  function addNote(newNote) {
+    setNotes((prevNotes) => {
+      return [...prevNotes, newNote];
+    });
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <SideNavBar />
+      <Header />
+      <Description onAdd={addNote} />
+      {notes.map((noteItem, index) => {
+        return (
+          <Note
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+          />
+        );
+      })}
     </div>
   );
 }
